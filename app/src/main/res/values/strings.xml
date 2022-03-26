@@ -3,4 +3,13 @@
     <string name="username">UserName</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="image_of_the_location">Image of the location</string>
+    <string name="back_button">Back button</string>
+    <string name="number_of_views">(2687 views)</string>
+    <string name="rating_text">4.4</string>
+    <string name="author_name">Grayson Wells</string>
+    <string name="description_of_place">Australia is one of the most popular travel destinations in the world.</string>
+    <string name="title_of_place">G\'day from Sydney</string>
+    <string name="date_of_rating">August 2, 2019</string>
+    <string name="avatar_of_the_reviewer">Avatar of the reviewer</string>
 </resources>
