@@ -1,9 +1,11 @@
 package com.kamrul.travelblog;
 
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -58,7 +60,7 @@ class BlogDetailsActivity : AppCompatActivity() {
         binding.textAuthor.text = blog.author.name
         binding.textRating.text = blog.rating.toString()
         binding.textViews.text = String.format("(%d views)", blog.views)
-        binding.textDescription.text = blog.description
+        binding.textDescription.text = HtmlCompat.fromHtml(blog.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
         binding.ratingBar.rating = blog.rating
         binding.ratingBar.visibility = View.VISIBLE
 
