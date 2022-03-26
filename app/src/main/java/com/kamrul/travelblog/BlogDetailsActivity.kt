@@ -3,9 +3,11 @@ package com.kamrul.travelblog;
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.snackbar.Snackbar
 import com.kamrul.travelblog.databinding.ActivityBlogDetailsBinding
 import com.kamrul.travelblog.http.Blog
 import com.kamrul.travelblog.http.BlogHttpClient
@@ -32,9 +34,21 @@ class BlogDetailsActivity : AppCompatActivity() {
                 }
             },
             onError = {
-
+                runOnUiThread {
+                    showErrorSnackbar()
+                }
             }
         )
+    }
+
+    private fun showErrorSnackbar() {
+        Snackbar.make(binding.root, "Error during loading blog articles", Snackbar.LENGTH_INDEFINITE).run {
+            setActionTextColor(ContextCompat.getColor(this@BlogDetailsActivity, R.color.orange500))
+            setAction("Retry") {
+                loadData()
+                dismiss()
+            }
+        }.show()
     }
 
     private fun showData(blog: Blog) {
