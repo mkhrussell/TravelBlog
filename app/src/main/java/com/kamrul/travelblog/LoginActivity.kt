@@ -1,9 +1,13 @@
 package com.kamrul.travelblog
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kamrul.travelblog.databinding.ActivityLoginBinding
@@ -11,9 +15,18 @@ import com.kamrul.travelblog.databinding.ActivityLoginBinding
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
+    lateinit var preferences: BlogPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        preferences = BlogPreferences(this)
+        if(preferences.isLoggedIn()) {
+            startMainActivity()
+            finish()
+            return
+        }
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -31,6 +44,8 @@ class LoginActivity : AppCompatActivity() {
             binding.textPasswordInput.error = "Password must not be empty"
         } else if(userName != "admin" && password != "admin") {
             showErrorDialog()
+        } else {
+            performLogin()
         }
     }
 
@@ -56,5 +71,25 @@ class LoginActivity : AppCompatActivity() {
             .setMessage("Username or password was incorrect. Please try again.")
             .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
             .show()
+    }
+
+    private fun performLogin() {
+        preferences.setLoggedIn(true)
+
+        binding.textUsernameLayout.isEnabled = false
+        binding.textPasswordInput.isEnabled = false
+
+        binding.loginButton.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.VISIBLE
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            startMainActivity()
+            finish()
+        }, 2000)
+    }
+
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
