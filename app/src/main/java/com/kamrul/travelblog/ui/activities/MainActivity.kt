@@ -1,4 +1,4 @@
-package com.kamrul.travelblog
+package com.kamrul.travelblog.ui.activities
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.kamrul.travelblog.MainAdapter
+import com.kamrul.travelblog.R
 import com.kamrul.travelblog.databinding.ActivityMainBinding
 import com.kamrul.travelblog.http.Blog
 import com.kamrul.travelblog.repository.BlogRepository

@@ -1,4 +1,4 @@
-package com.kamrul.travelblog
+package com.kamrul.travelblog.prefs
 
 import android.content.Context
 import android.content.SharedPreferences

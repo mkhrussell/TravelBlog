@@ -1,4 +1,4 @@
-package com.kamrul.travelblog
+package com.kamrul.travelblog.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kamrul.travelblog.databinding.ActivityLoginBinding
+import com.kamrul.travelblog.prefs.BlogPreferences
 
 class LoginActivity : AppCompatActivity() {
 

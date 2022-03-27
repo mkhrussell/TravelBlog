@@ -1,5 +1,6 @@
 package com.kamrul.travelblog.http
 
+import android.annotation.SuppressLint
 import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -7,6 +8,7 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 
+@SuppressLint("SimpleDateFormat")
 private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
 
 @Parcelize
@@ -27,7 +29,7 @@ data class Blog(
     val rating: Float
 ) : Parcelable {
     fun getImageUrl() = BlogHttpClient.BASE_URL + BlogHttpClient.PATH + image
-    fun getDateMillis() = dateFormat.parse(date).time
+    fun getDateMillis() = dateFormat.parse(date)?.time
 }
 
 @Parcelize

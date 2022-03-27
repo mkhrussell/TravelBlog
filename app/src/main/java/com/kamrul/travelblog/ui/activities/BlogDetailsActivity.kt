@@ -1,9 +1,8 @@
-package com.kamrul.travelblog;
+package com.kamrul.travelblog.ui.activities;
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
