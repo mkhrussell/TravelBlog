@@ -11,7 +11,9 @@ import com.kamrul.travelblog.http.BlogHttpClient
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val adapter = MainAdapter()
+    private val adapter = MainAdapter { blog ->
+        BlogDetailsActivity.start(this, blog)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

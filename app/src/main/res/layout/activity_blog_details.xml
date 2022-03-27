@@ -10,7 +10,6 @@
         android:id="@+id/imageMain"
         android:layout_width="0dp"
         android:layout_height="250dp"
-        tools:src="@drawable/sydney_image"
         android:background="#ff0000"
         android:scaleType="centerCrop"
         android:contentDescription="@string/image_of_the_location"

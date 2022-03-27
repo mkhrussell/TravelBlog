@@ -1,20 +1,30 @@
 package com.kamrul.travelblog;
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.text.Html
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.google.android.material.snackbar.Snackbar
 import com.kamrul.travelblog.databinding.ActivityBlogDetailsBinding
 import com.kamrul.travelblog.http.Blog
-import com.kamrul.travelblog.http.BlogHttpClient
 
 class BlogDetailsActivity : AppCompatActivity() {
+
+    companion object {
+        private const val EXTRAS_BLOG = "EXTRAS_BLOG"
+
+        fun start(activity: Activity, blog: Blog) {
+            val intent = Intent(activity, BlogDetailsActivity::class.java)
+            intent.putExtra(EXTRAS_BLOG, blog)
+            activity.startActivity(intent)
+        }
+    }
+
     lateinit var binding: ActivityBlogDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,32 +35,9 @@ class BlogDetailsActivity : AppCompatActivity() {
 
         binding.imageBack.setOnClickListener { finish() }
 
-        loadData()
-    }
-
-    private fun loadData() {
-        BlogHttpClient.loadBlogArticles(
-            onSuccess = { list: List<Blog> ->
-                runOnUiThread {
-                    showData(list[0])
-                }
-            },
-            onError = {
-                runOnUiThread {
-                    showErrorSnackbar()
-                }
-            }
-        )
-    }
-
-    private fun showErrorSnackbar() {
-        Snackbar.make(binding.root, "Error during loading blog articles", Snackbar.LENGTH_INDEFINITE).run {
-            setActionTextColor(ContextCompat.getColor(this@BlogDetailsActivity, R.color.orange500))
-            setAction("Retry") {
-                loadData()
-                dismiss()
-            }
-        }.show()
+        intent.extras?.getParcelable<Blog>(EXTRAS_BLOG)?.let { blog ->
+            showData(blog)
+        }
     }
 
     private fun showData(blog: Blog) {
@@ -65,11 +52,12 @@ class BlogDetailsActivity : AppCompatActivity() {
         binding.ratingBar.visibility = View.VISIBLE
 
         Glide.with(this)
-            .load(blog.image)
+            .load(blog.getImageUrl())
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.imageMain)
+
         Glide.with(this)
-            .load(blog.author.avatar)
+            .load(blog.author.getAvatarUrl())
             .transform(CircleCrop())
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(binding.imageAvatar)
