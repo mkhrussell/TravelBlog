@@ -14,6 +14,17 @@ import com.kamrul.travelblog.http.Blog
 class MainAdapter(private val onItemClickListener: (Blog) -> Unit)
     : ListAdapter<Blog, MainViewHolder>(DIFF_CALLBACK) {
 
+    private var originalList: List<Blog> = emptyList()
+
+    fun filter(query: String) {
+        submitList(originalList.filter { blog -> blog.title.contains(query, ignoreCase = true) })
+    }
+
+    fun setData(list: List<Blog>) {
+        originalList = list
+        submitList(list)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMainBinding.inflate(inflater, parent, false)

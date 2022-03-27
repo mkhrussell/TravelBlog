@@ -5,4 +5,9 @@
         <item name="colorSecondary">@color/orange500</item>
         <item name="colorPrimaryDark">@color/blue800</item>
     </style>
+
+    <style name="Theme.TravelBlog.MainTheme" parent="Theme.TravelBlog">
+        <item name="android:editTextColor">@android:color/white</item>
+    </style>
+
 </resources>
