@@ -12,4 +12,5 @@
     <string name="title_of_place">G\'day from Sydney</string>
     <string name="date_of_rating">August 2, 2019</string>
     <string name="avatar_of_the_reviewer">Avatar of the reviewer</string>
+    <string name="sort">Sort</string>
 </resources>

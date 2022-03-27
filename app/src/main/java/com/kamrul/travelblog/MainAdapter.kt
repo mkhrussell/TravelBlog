@@ -23,6 +23,14 @@ class MainAdapter(private val onItemClickListener: (Blog) -> Unit)
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bindTo(getItem(position))
     }
+
+    fun sortByTitle() {
+        submitList(currentList.sortedBy { blog -> blog.getDateMillis() })
+    }
+
+    fun sortByDate() {
+        submitList(currentList.sortedBy { blog -> blog.date })
+    }
 }
 
 class MainViewHolder(private val binding: ItemMainBinding, private val onItemClickListener: (Blog) -> Unit) : RecyclerView.ViewHolder(binding.root) {
