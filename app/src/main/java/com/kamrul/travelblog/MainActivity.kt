@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.mainTextView.text = "This is a sample text."
+
 
         startActivity(Intent(this, BlogDetailsActivity::class.java))
     }
