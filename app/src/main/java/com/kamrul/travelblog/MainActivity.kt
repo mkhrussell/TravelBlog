@@ -10,7 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kamrul.travelblog.databinding.ActivityMainBinding
 import com.kamrul.travelblog.http.Blog
-import com.kamrul.travelblog.http.BlogHttpClient
+import com.kamrul.travelblog.repository.BlogRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,9 +22,8 @@ class MainActivity : AppCompatActivity() {
     private var currentSort = SORT_DATE
 
     private lateinit var binding: ActivityMainBinding
-    private val adapter = MainAdapter { blog ->
-        BlogDetailsActivity.start(this, blog)
-    }
+    private val adapter = MainAdapter { blog -> BlogDetailsActivity.start(this, blog) }
+    private val repository by lazy { BlogRepository(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +52,11 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
         binding.refreshLayout.setOnRefreshListener {
-            loadData()
+            loadDataFromNetwork()
         }
 
-        loadData()
+        loadDataFromDatabase()
+        loadDataFromNetwork()
     }
 
     private fun onSortClicked() {
@@ -78,9 +78,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadData() {
+    private fun loadDataFromDatabase() {
+        repository.loadDataFromDatabase { blogList: List<Blog> ->
+            runOnUiThread {
+                adapter.setData(blogList)
+                sortData()
+            }
+        }
+    }
+
+    private fun loadDataFromNetwork() {
         binding.refreshLayout.isRefreshing = true
-        BlogHttpClient.loadBlogArticles(
+        repository.loadDataFromNetwork(
             onSuccess = { blogList: List<Blog> ->
                 binding.refreshLayout.isRefreshing = false
                 runOnUiThread { adapter.setData(blogList) }
@@ -96,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(binding.root, "Error during loading blog articles", Snackbar.LENGTH_INDEFINITE).run {
             setActionTextColor(ContextCompat.getColor(this@MainActivity, R.color.orange500))
             setAction("Retry") {
-                loadData()
+                loadDataFromNetwork()
                 dismiss()
             }
         }.show()

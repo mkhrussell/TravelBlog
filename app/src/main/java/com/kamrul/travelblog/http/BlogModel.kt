@@ -1,18 +1,23 @@
 package com.kamrul.travelblog.http
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
-import java.util.*
 
 private val dateFormat = SimpleDateFormat("MMMM dd, yyyy")
 
 @Parcelize
 data class BlogData(val data: List<Blog>) : Parcelable
 
+@Entity(tableName = "blogs")
 @Parcelize
 data class Blog(
+    @PrimaryKey
     val id: String,
+    @Embedded
     var author: Author,
     val title: String,
     val date: String,

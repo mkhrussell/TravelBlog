@@ -1,6 +1,5 @@
 package com.kamrul.travelblog.http
 
-import android.util.Log
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,26 +16,19 @@ object BlogHttpClient {
     private val client = OkHttpClient()
     private val gson = Gson()
 
-    fun loadBlogArticles(onSuccess: (List<Blog>) -> Unit, onError: () -> Unit) {
+    fun loadBlogArticles(): List<Blog>? {
         val request = Request.Builder()
             .get()
             .url(BLOG_ARTICLES_URL)
             .build()
 
-        executor.execute {
-            kotlin.runCatching {
+        return runCatching {
                 val response: Response = client.newCall(request).execute()
                 response.body?.string()?.let { json ->
                     gson.fromJson(json, BlogData::class.java)?.let { blogData ->
                         return@runCatching blogData.data
                     }
                 }
-            }.onFailure { e: Throwable ->
-                Log.e("BlogHttpClient", "Error loading blog articles", e)
-                onError()
-            }.onSuccess { value: List<Blog>? ->
-                onSuccess(value ?: emptyList())
-            }
-        }
+            }.getOrNull()
     }
 }
